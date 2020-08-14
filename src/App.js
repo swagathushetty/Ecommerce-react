@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route,Redirect } from 'react-router-dom';
 import {connect} from 'react-redux'
 
 import Header from '../src/components/header/header'
@@ -36,12 +36,8 @@ class App extends React.Component {
 
                 userRef.onSnapshot(snapShot=>{
                     setCurrentUser({
-                      currentUser: {
                         id: snapShot.id,
                         ...snapShot.data()
-                      }
-                    },()=>{
-                        console.log(this.state)
                     }) 
                  })
                
@@ -67,12 +63,28 @@ class App extends React.Component {
           <Switch>
             <Route exact path='/' component={HomePage} />
             <Route path='/hats' component={ShopPage} />
-            <Route path='/signin' component={SignInAndSignUp} />
+            <Route 
+                exact
+                path='/signin'
+                render={ ()=>
+                  this.props.currentUser ? 
+                  ( <Redirect to='/'/>) 
+                  :
+                  ( <SignInAndSignUp />) 
+                } 
+             />
           </Switch>
         </div>
       );
   }
 
+}
+
+//getting state.user.currentUser
+const mapStateToProps=({user})=>{
+  return {
+    currentUser: user.currentUser
+  }  
 }
 
 const mapDispatchToProps=dispatch=>{
@@ -82,4 +94,4 @@ const mapDispatchToProps=dispatch=>{
 }
 
 //null as we dont need the state
-export default connect(null,mapDispatchToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);
