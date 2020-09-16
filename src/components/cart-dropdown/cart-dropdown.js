@@ -12,7 +12,7 @@ import { toggleCartHidden } from '../../redux/cart/cart.actions'
 
 
 import './cart-dropdown.style.scss'
-import cartItem from '../cart-item/cart-item'
+// import cartItem from '../cart-item/cart-item'
 
 
 const CartDropDown = ({ cartItems, history, dispatch }) => {
