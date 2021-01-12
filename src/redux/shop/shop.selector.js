@@ -13,7 +13,7 @@ export const selectShopCollections = createSelector(
 export const selectCollectionsForPreview = createSelector(
   [selectShopCollections],
   collections => {
-    return collections?Object.keys(collections).map(key => collections[key]):[]
+    return collections ? Object.keys(collections).map(key => collections[key]) : []
   }
 )
 
@@ -21,8 +21,23 @@ export const selectCollection = collectionUrlParam => {
   return (
     createSelector(
       [selectShopCollections],
-      collections => (collections?collections[collectionUrlParam]:null)
+      collections => (collections ? collections[collectionUrlParam] : null)
 
     )
   )
 }
+
+export const selectIsCollectionFetching = createSelector(
+  [selectShop],
+  shop => shop.isFetching
+)
+
+
+/*  
+   - !!null-false -inital case
+   - !!{}-true    -after data is fetched
+*/
+export const selectIsCollectionLoaded = createSelector(
+  [selectShop],
+  shop => !!shop.collections
+)
